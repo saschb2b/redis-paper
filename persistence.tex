@@ -1,0 +1,37 @@
+\chapter{Persistence}
+Redis comes with a different range of options when it comes to persistence. 
+
+\section{RDB}
+The RDB persistence performs point-in-time snapshots of your dataset at specified intervals.
+Due to its compact size it is perfect for backups. Store those single files on a seperate server or in the cloud e.g. Amazon S3.
+In case of a disaster you can easily restory a different version of the data set.
+Restarting your service with RDB will be faster since it is only a single file that must be loaded.
+
+On the downside you have to live with data being lost when restoring a state. Due to the RDB timed saving interval mechanic data missing a savepoint will be lost once something bad happens.
+To reduce the amount of data being lost minimizing the time interval will create backups more frequently.
+Everytime RDB has to persist something on the disk it is using a child process and starts to fork(). This can be time consuming if you are working with a big dataset.
+
+\subsection{Snapshotting}
+So called „in-memory“ meaning Redis holds the „Dictionary“ in the RAM and stores it onto the disk at predetermined intervals. The intervals to store data onto the disk can be configured by define the number of writing operations and a time limit.If the systems crushes the past operations can be reloaded to retrieve the primary state of the data.
+
+\section{AOF}
+Instead of saving a complete dataset AOF logs your actions and reconstruct your dataset when started.
+This log is append only which prevents corruption problems if there is a power outage. If the log contains a half written action the provided redis-check-aof tool will be able to fix that.
+The log will grow for sure. Every action will be appended. To prevent a big logfile redis will rewrite it frequently. AOF will minimize the amount of actions needed to restore your dataset. If the second file is ready refactoring it will switch it with the original and starts appending onto the new one.
+Further more the log file is human readable. In case of a disaster you can check the log for problems and edit them directly. Restart and AOF will use your edited lines.
+
+On the downside the AOF files are usually bigger than a RDB file for the same dataset. Depending on the used fsync policy AOF can be slower than RDB.
+
+\subsection{Append-only file}
+Every writing operation is stored onto the disk immediately.
+
+\section{Combine AOF and RDB}
+You can combine those two options for a hybrid solution. In this scenario redis will use the AOF file when restarting to reconstruct the original dataset because it is the most complete.
+
+\section{No persistence}
+If you are risky disable persistence completely. Just use redis as is. There will be no backup or restoring features with this option.
+
+\section{What's the best option now?}
+It depends on your requierements. If you want a degree of data security comparable to what postgreSQL provides choose the hybrid option.
+If your data is very delicate but living with a few minutes of data loss is acceptable choose RDB alone.
+Choosing AOF alone is something you should prevent. Taking a RDB snapshot form time to time is a must have if you seek for backups.

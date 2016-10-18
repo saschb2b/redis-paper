@@ -1,0 +1,12 @@
+\chapter{Query Support}
+
+\section{Supported query types, i.e. point, range, navigation, and/or arbitrary?}
+Redis supports different query types. Redis supports point and range queries for:
+strings, hashes, lists, sets, sorted sets. A string for example can be accesses via GET <key> and multiple Strings can be accesses, to name one possibility, for example with the command: MGET <key> [<key>…]. Geospatial indexes can even be searched by radius queries. That means Redis checks if the geospatial indexes are within a specific radius of a defined
+position. Arbitrary access of entries is also possible by getting a random key with the command RANDOMKEY. In comparison to plain key-value stores, redis is able to store complex data structures and perform for the data structure specific commands. So for example in redis it is possible in a list to prepend one or multiple values with the command: LPUSH <key> <value> [<value>…]. Another mentionable functionality of redis is that keys can expire. Timeouts can be set on keys and after the timeout has expired, the key will automatically be deleted. The related command for expiring a key is the command: EXPIRE <key> {seconds}.
+
+\section{What is the query language of the system? Is it declarative, functional, algebraic and/or imperative?}
+In comparison to normal SQL Redis doesn‘t have a delarative query language. The query language of Redis is imperative. All queries in Redis are made with commands that can‘t be modified (apart from source code modifications in Ansi-C), except for the arguments, that can be passed into the command.
+
+\section{Are queries automatically optimized?}
+There is no automatic command optimization in Redis. One compareable approach in Redis is the Slowlog. Redis loggs queries that exceed a specific, configureable execution time. The execution time is just the time actually needed to execute the command, not included in this case are for example the I/O operations or the communication with the client. With the Slowlog there is a chance to identify slowly executing commands. The commands themselfs aren‘t automatically optimized.

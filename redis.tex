@@ -1,0 +1,101 @@
+\documentclass[11pt,DIV12,BCOR0mm,oneside,headings=normal,%
+  numbers=noenddot,headsepline,headinclude]{scrreprt}
+\usepackage[automark,headsepline]{scrpage2}
+\usepackage{scrhack}                % to avoid KOMA-Script warning
+\usepackage[utf8]{inputenc}         % UTF8 encoding
+%\usepackage[latin1]{inputenc}      % ISO encoding
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}                % Postscript fonts
+\usepackage[ngerman,english]{babel}
+\usepackage[fixlanguage]{babelbib}
+\usepackage{graphicx}
+\usepackage[usenames]{xcolor}
+\usepackage{listings}
+\usepackage[pdftex]{hyperref}       % provides \url
+\usepackage{wallpaper}              % for HsH logo
+\usepackage{subfigure}
+
+
+% ---------------------------------------------------------
+
+% package configuration
+\KOMAoptions{headinclude}       % for scrpage2
+\lstset{numbers=none,showstringspaces=false,language=Java,%
+  basicstyle=\ttfamily,frame=single,rulecolor=\color{gray}}
+\hypersetup{linkcolor=black,pdfborder=0 0 0}
+
+% layout
+\tolerance=2000                 % avoid overfull hboxes
+\frenchspacing                  % no extra space after full stops
+
+% ---------------------------------------------------------
+
+\begin{document}
+
+\selectlanguage{ngerman}
+\selectbiblanguage{ngerman}
+
+% title page
+\thispagestyle{empty}
+%\cleardoublepage
+\pagenumbering{roman}
+
+\begin{center}
+  \vspace*{4\baselineskip}
+  {\sffamily\bfseries\LARGE
+    Redis Database Analyses\par}
+  
+  \vspace*{4\baselineskip}
+  {\Large }
+
+  \vfill
+  {\Large }
+  
+  \vspace*{4\baselineskip}
+  {\Large \par}
+  
+  \vspace*{4\baselineskip}
+  {\Large 20.\,10.\,2016}
+  
+  \vspace*{4\baselineskip}
+\end{center}
+
+
+{\huge\textbf{Written by}} \\
+\\
+\\
+\textbf{} \\
+Florian Sander \\
+florian.sander@student.hs-hannover.de \\
+\\
+\\
+\textbf{} \\
+Nikolai Böker \\
+nikolai.boeker@student.hs-hannover.de \\
+\\
+\\
+\textbf{} \\
+Danar \\
+\\
+\\
+\textbf{} \\
+Sascha Becker \\
+s.becker@wertarbyte.com \\
+\\
+\\
+\\
+\\
+
+
+\tableofcontents    % Inhaltsverzeichnis
+
+%\listoftables       % Tabellenverzeichnis
+
+% main text
+\newpage
+\pagenumbering{arabic}
+\include{data_model}
+\include{query_support}
+\include{transactions_concurrency_control}
+
+\end{document}

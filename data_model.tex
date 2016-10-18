@@ -1,0 +1,25 @@
+\chapter{Data Model}
+
+Redis is a NoSQL database with an aggregate orientation and is likewise key-based. This means that keys identify the assigned value, this way a client can extract the value by knowing its key. Further you can put a value for a key or delete a key and likewise its value. Redis keys are binary safe which means any binary sequence can be used as a key. An empty string is also a valid key. But Redis is not a plain key-value store. Because a key is binary safe the value can hold more complex data structures. By complex is meant the possibility to nest values in values or even map objects. 
+
+\section{Data Structures}
+Redis supports the following data structures:
+\begin{itemize}  
+\item Strings: a String-value can have a total length of 512 Mb, assembling Strings
+\item Lists: simply an ordered list of Strings => a sequence with duplicates, adding 	new elements on the head (left) or on the tail (right), max length of a list is 232 (around 4 billion of elements per list
+\item Hashes: maps between String-fields and String-values, mainly represent objects, have a max length of 232
+\item Sets: an ordered collection of Strings, not allowing duplicates (if u add the 	same element multiple times will result in having just a single copy of this element), max number of elements is the same as lists, you can apply commands or set operations
+\item Sorted Sets: similar to Set but associated with a score ordering the sorted set from the smallest to the greatest score, elements are unique but scores may be repeated
+\item Bitmaps and HyperLogLogs: basing on Strings with their own semantic
+Message Queues 	
+\end{itemize}
+
+You can run atomic operations on each of these data types. With SET you set a specific value for a key and with GET you retrieve this value. SET replaces any existing value already stored into a key in the case this key already exists. This way SET can be used to update a value of an existing key. Because the value of the key is overwritten with a new value, the old value is kind of deleted. To delete a key with its associated value you run the command DEL. Redis offers the possibility to set or retrieve the value of multiple keys in a single command using MSET and MGET. MGET returns an array of values.
+
+There are two different functionings implemented in Redis. This is how Redis works internally:
+\begin{enumerate}
+\item Snapshotting: so called „in-memory“ meaning Redis holds the „Dictionary“ in the RAM and stores it onto the disk at predetermined intervals. The intervals to store data onto the disk can be configured by define the number of writing operations and a time limit.If the systems crushes the past operations can be reloaded to retrieve the primary state of the data.
+\item Append Only File Mode: Every writing operation is stored onto the disk immediately.
+\end{enumerate}
+
+Redis supports around 50 programing languages. 12 languages are particular recommended. For Java there are 4 different libraries. A few examples for different programming languages in the following are JRedis for Java , Redis-rb for Ruby, Credis for C and Redis-py for Python.

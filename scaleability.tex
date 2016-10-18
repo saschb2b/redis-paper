@@ -1,0 +1,20 @@
+\chapter{Partitioning}
+
+Splitting redis into multiple instances is a process called partitioning. Every instance will only contain a small subset of the keys.
+
+Partitioning servers two main goals:
+\begin{itemize}
+\item The Database can be much larger because using multiple computers merged into one is more powerfull than using a single instance.
+\item Scaling becomes reality. Giving control over how much cores and isntances used in your cluster is a must for bigger systems.
+\end{itemize}
+
+\section{Types}
+There are several ways to split up your keys and route your users to what they need.
+
+\subsection{Range Partitioning}
+\subsection{Hash Partitioning}
+\subsection{Consistent Partitioning}
+
+\section{Where and how implemented?}
+
+\section{Disadvantages}

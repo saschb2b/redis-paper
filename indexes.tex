@@ -1,0 +1,50 @@
+\chapter{Indexes}
+
+In Redis different kinds of indexes can be created. The following indexes can be created using sorted sets:
+
+\section{Simple Numerical Indexes}
+\begin{itemize}
+\item Simplest index that can be created in Redis
+\item Numerical value can be indexed
+\item Data type of sorted set is used which represents a set of elements
+\item Elements are ordered by a so-called score
+\item Scores are in ascending order
+\item Updating this kind of index must be done manually
+\begin{itemize}
+\item Adding back again an element with a different score and the same value
+\item Two operations (commands) needed:
+\begin{enumerate}
+\item Updating the data in the hash that representing the element    (HSET)
+\item Updating the data in the index (ZADD)
+\end{enumerate}
+\end{itemize}
+\end{itemize}
+
+\section{Lexicographical Indexes}
+\begin{itemize}
+\item In Redis when elements with the same score are added into a sorted set, then they are ordered lexicographically
+\item Strings are indexed
+\begin{itemize}
+\item Strings are compared as binary data
+\item Elements are sorted by the raw values of their bytes (byte after byte)
+\end{itemize}
+\item Lexicographical indexes are managed manually
+\begin{itemize}
+\item One possibility to update index values is to take a hash in addition to    the sorted set; the hash maps the object ID to the current index value
+\item In case of removing old information were indexed the hash value   has to be retrieved by object ID and then the information can be removed from the sorted set (command: ZREM)
+\end{itemize}
+\end{itemize}
+
+\section{Composite Indexes}
+\begin{itemize}
+\item Are used when indexes are created by using multiple fields
+\item Composite indexes can also be used in order to represent graphs by using the so-called Hexastore data structure
+\begin{itemize}
+\item By using Hexastore relations between objects can be represented
+\item An element (relation) must be stored in a lexicographical index
+\end{itemize}
+\end{itemize}
+
+
+
+

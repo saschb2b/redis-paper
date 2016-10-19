@@ -1,20 +1,37 @@
 \chapter{Partitioning}
 
-Splitting redis into multiple instances is a process called partitioning. Every instance will only contain a small subset of the keys.
+Splitting Redis into multiple instances is a process called partitioning. Every instance will only contain a small subset of the keys.
 
 Partitioning servers two main goals:
 \begin{itemize}
-\item The Database can be much larger because using multiple computers merged into one is more powerful than using a single instance.
-\item Scaling becomes reality. Giving control over how much cores and instances used in your cluster is a must for bigger systems.
+	\item The Database can be much larger because using multiple computers merged into one is more powerful than using a single instance
+	\item Scaling becomes reality. Giving control over how much cores and instances used in your cluster is a must for bigger systems
 \end{itemize}
 
 \section{Types}
 There are several ways to split up your keys and route your users to what they need.
 
 \subsection{Range Partitioning}
+As the name suggests you define ranges of object into specific Redis instances. This system requires a table that maps ranges to instances. It needs to be managed and it's needed for every kind of object. Because of that it's much more inefficient than other methods.
 \subsection{Hash Partitioning}
-\subsection{Consistent Partitioning}
+An alternative is hash partitioning. This method just needs a key. The process is as follows:
+\begin{itemize}
+	\item Hash the key to turn it into a number e.g. with the crc32 hash function
+	\item Using modulo on this number and turn it into a number between 0 and n-1. Where n is my number of available Redis instances
+\end{itemize}
 
 \section{Where and how implemented?}
+The responsibility can be part of different parts of a software stack
+\begin{itemize}
+	\item Client side partitioning pushes the responsibility choosing a fitting node to the client
+	\item Proxy assisted partitioning adds a proxy layer between the client and a Redis node. It chooses the right one for you
+	\item Query routing allows sending to any instance and choosing the right one for you
+\end{itemize}
 
 \section{Disadvantages}
+Everything can't be gold so there has to be some problems.
+\begin{itemize}
+	\item Operations that need multiple sets on different instances are not possible
+	\item Transactions involving multiple keys cannot be used
+	\item Backup and logging (RDB and AOF) becomes more complex because it has to done for every instance
+\end{itemize}

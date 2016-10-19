@@ -4,8 +4,8 @@ Redis support transactions. A basic transaction is a sequence of multiple comman
 
 Transaction guarantees:
 \begin{itemize}
-\item all commands in a transaction are serialized no request by other client is served in the middle of the execution of a Redis Transaction guarantees isolation
-\item all commands are processed or none guarantees atomic transactions 
+	\item all commands in a transaction are serialized no request by other client is served in the middle of the execution of a Redis Transaction guarantees isolation
+	\item all commands are processed or none guarantees atomic transactions
 \end{itemize}
 
 A possible error before a transaction could be that the command maybe failed to queue due to wrong syntax of the command or e.g. memory errors. Another eventuality to produce an error after a transaction is executed could be to execute a command against a key with a wrong data structure (all data structures have specific commands and the actual values are unknown for the system). Even though a command might fail during execution, the execution of the following commands will be processed and not rolled back like in some relative database query languages.

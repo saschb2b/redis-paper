@@ -1,6 +1,6 @@
 \chapter{Data Model}
 
-Redis is a NoSQL database with an aggregate orientation and is likewise key-based. This means that keys identify the assigned value, this way a client can extract the value by knowing its key. Further you can put a value for a key or delete a key and likewise its value. Redis keys are binary safe which means any binary sequence can be used as a key. An empty string is also a valid key. But Redis is not a plain key-value store. Because a key is binary safe the value can hold more complex data structures. By complex is meant the possibility to nest values in values or even map objects. 
+Redis is a NoSQL database with an aggregate orientation and is likewise key-based \cite{redis} \cite{redis_book}. This means that keys identify the assigned value, this way a client can extract the value by knowing its key. Further you can put a value for a key or delete a key and likewise its value. Redis keys are binary safe which means any binary sequence can be used as a key. An empty string is also a valid key. But Redis is not a plain key-value store. Because a key is binary safe the value can hold more complex data structures. By complex is meant the possibility to nest values in values or even map objects. 
 
 \section{Data Structures}
 Redis supports the following data structures:

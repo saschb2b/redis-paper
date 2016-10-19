@@ -17,7 +17,7 @@ So called „in-memory“ meaning Redis holds the „Dictionary“ in the RAM an
 \section{AOF}
 Instead of saving a complete dataset AOF logs your actions and reconstruct your dataset when started.
 This log is append only which prevents corruption problems if there is a power outage. If the log contains a half written action the provided redis-check-aof tool will be able to fix that.
-The log will grow for sure. Every action will be appended. To prevent a big log file redis will rewrite it frequently. AOF will minimize the amount of actions needed to restore your dataset. If the second file is ready refactoring it will switch it with the original and starts appending onto the new one.
+The log will grow for sure. Every action will be appended. To prevent a big log file Redis will rewrite it frequently. AOF will minimize the amount of actions needed to restore your dataset. If the second file is ready refactoring it will switch it with the original and starts appending onto the new one.
 Further more the log file is human readable. In case of a disaster you can check the log for problems and edit them directly. Restart and AOF will use your edited lines.
 
 On the downside the AOF files are usually bigger than a RDB file for the same dataset. Depending on the used fsync policy AOF can be slower than RDB.
@@ -26,10 +26,10 @@ On the downside the AOF files are usually bigger than a RDB file for the same da
 Every writing operation is stored onto the disk immediately.
 
 \section{Combine AOF and RDB}
-You can combine those two options for a hybrid solution. In this scenario redis will use the AOF file when restarting to reconstruct the original dataset because it is the most complete.
+You can combine those two options for a hybrid solution. In this scenario Redis will use the AOF file when restarting to reconstruct the original dataset because it is the most complete.
 
 \section{No persistence}
-If you are risky disable persistence completely. Just use redis as is. There will be no backup or restoring features with this option.
+If you are risky disable persistence completely. Just use Redis as is. There will be no backup or restoring features with this option.
 
 \section{What's the best option now?}
 It depends on your requirements If you want a degree of data security comparable to what postgreSQL provides choose the hybrid option.

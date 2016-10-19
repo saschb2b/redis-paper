@@ -2,12 +2,14 @@
 
 Redis support transactions. A basic transaction is a sequence of multiple commands. One client can execute multiple commands without other clients being able to interrupt them. In Redis the foundation of transactions are following commands: MULTI, EXEC, DISCARD and WATCH, which allow execution of a group of commands in a single step. The basic usage is to enter MULTI, enter multiple queries and enter EXEC for executing the multiple commands or  DISCARD for flushing the transaction queue. Every command passed as a part of a basic MULTI/EXEC transaction is executed one after another until they have completed. After completion another client may execute their commands. The WATCH command is used to provide a check-and-set behavior to transactions. This form of locking is called optimistic locking (which is an Optimistic Concurrency Control, short: OCC approach).
 
-Transaction guarantees:
+\section{Transaction guarantees}
 \begin{itemize}
-	\item all commands in a transaction are serialized no request by other client is served in the middle of the execution of a Redis Transaction guarantees isolation
-	\item all commands are processed or none guarantees atomic transactions
+	\item All commands in a transaction are serialized no request by other client is served in the middle of the execution of a Redis Transaction guarantees isolation
+	\item All commands are processed or none guarantees atomic transactions
 \end{itemize}
 
+\section{Errors}
 A possible error before a transaction could be that the command maybe failed to queue due to wrong syntax of the command or e.g. memory errors. Another eventuality to produce an error after a transaction is executed could be to execute a command against a key with a wrong data structure (all data structures have specific commands and the actual values are unknown for the system). Even though a command might fail during execution, the execution of the following commands will be processed and not rolled back like in some relative database query languages.
 
+\section{PCC}
 Pessimistic Concurrency Controls (PCC) in distributed systems, with distributed locks are also possible with Redis, but not with the commands in the Redis query language itself. If necessary, the “Redlock” algorithm can be integrated in diverse programming languages.

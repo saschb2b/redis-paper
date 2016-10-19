@@ -1,0 +1,68 @@
+\chapter{Deployment}
+
+Redis is a senior key-value database. It is similar to memcached, but the data persistence, and the support of the data type is very rich. Redis can be viewed as a data structure of server.
+Redis all data are stored in the memory, then do not regularly by the asynchronous mode is saved to disk (this is called "semi persistent mode"); can also take every data changes are written to an append only file (AOF). (this is called "persistence model").
+\begin{lstlisting}[
+caption=Installation,
+basicstyle={\ttfamily},
+keywordstyle={\color{blue}\ttfamily},
+stringstyle={\color{red}\ttfamily},
+commentstyle={\color{green}\ttfamily},
+breaklines=true
+]
+1. Download address:
+$ wget http://redis.googlecode.com/files/redis-2.6.13.tar.gz
+2. Decompression
+$ tar xzf redis-2.6.13.tar.gz
+3. Compile
+$ cd redis-2.6.13
+$ make
+$make install
+$cp redis.conf /etc/
+Parameter introduction:
+The make install command execution is completed, will generate the executable file in the /usr/local/bin directory, respectively is redis-server, redis-cli, redis-benchmark, redis-check-aof, redis-check-dump, following their role:
+redis-server: Redis server daemon startup programs
+redis-cli: The Redis command line tools. You can also use the telnet protocol to operate according to the text
+redis-benchmark: Redis performance testing tool, test the Redis under the present system read and write performance
+redis-check-aof: Data repair
+redis-check-dump: Check the export tool
+\end{lstlisting}
+\begin{lstlisting}[
+caption=Modify and start,
+basicstyle={\ttfamily},
+keywordstyle={\color{blue}\ttfamily},
+stringstyle={\color{red}\ttfamily},
+commentstyle={\color{green}\ttfamily},
+breaklines=true
+]
+4. Modify the system configuration file, execute the command
+a) echo vm.overcommit_memory=1 >> /etc/sysctl.conf
+b) Sysctl vm.overcommit_memory=1 or echo vm.overcommit_memory=1>>/proc/sys/vm/overcommit_memory
+The use of digital means:
+0, Said the kernel will check to see if you have enough memory available for process used; if there is enough free memory, memory application allows; otherwise, the application memory failure, and the error is returned to the application process.
+1, Kernel allows allocation of physical memory for all, regardless of the current memory state.
+2, Kernel allows allocating more than all the physical memory and swap space is the sum of the memory
+5. Modify the redis configuration file
+a) $ cd redis-2.6.13
+b) vi redis.conf
+c) Daemonize yes--- to modify the process running in the background
+Parameter introduction:
+daemonize: If after daemon operation
+pidfile: PID file location
+port: The port number.
+timeout: Request timeout
+loglevel: Log information level
+logfile: Log file location
+databases: The number of open databases
+save * *: Save the snapshot of the frequency, the first * said how long, third * indicates how many times the write operation. Write a number in a certain period of time, automatically save the snapshot. Can set up multiple conditions.
+rdbcompression: Whether the use of compression
+dbfilename: A snapshot of data file name (just the file name, not including the directory)
+dir: A snapshot of data storage directory (this is the directory)
+appendonly: Whether to open the appendonlylog, open the words each write operation will take a log, it will improve the data anti risk ability, but influence the efficiency.
+appendfsync: Appendonlylog how to synchronize to the disk (three options, respectively is every write all forced to call fsync, enable a fsync per second, do not call the fsync wait for the system to its own synchronization)
+6. Start redis
+a) $ cd /usr/local/bin
+b) ./redis-server /etc/redis.conf
+7. Check whether the successful start
+a) $ ps -ef | grep redis
+\end{lstlisting}
